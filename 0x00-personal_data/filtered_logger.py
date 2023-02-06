@@ -5,6 +5,8 @@ filtered_logger
 from typing import List
 import re
 import logging
+from os import getenv
+import mysql.connector
 
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
@@ -62,3 +64,19 @@ def filter_datum(
         message = re.sub(f"{f}=.*?{separator}",
                          f"{f}={redaction}{separator}", message)
     return message
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    returns a connector to the database
+    """
+    username = getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+    pssword = getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+    host = getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+    db_name = getenv('PERSONAL_DATA_DB_NAME')
+
+    return mysql.connector.connection.MySQLConnection(user=username,
+                                                      password=pssword,
+                                                      host=host,
+                                                      database=db_name
+                                                      )
