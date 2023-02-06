@@ -3,9 +3,11 @@
 filtered_logger
 """
 import re
+from typing import List
 
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(fields: List, redaction: str, message: str, separator: str
+                 ) -> str:
     """
     function that returns the log message obfuscated
     Args:
@@ -17,6 +19,6 @@ def filter_datum(fields, redaction, message, separator):
     """
     for j in fields:
         message = re.sub(j + '=.*?' + separator,
-                      j + '=' + redaction + separator,
-                      message)
+                         j + '=' + redaction + separator,
+                         message)
     return message
