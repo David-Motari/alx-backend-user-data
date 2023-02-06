@@ -2,7 +2,7 @@
 """
 filtered_logger
 """
-from re import sub
+import re
 
 
 def filter_datum(fields, redaction, message, separator):
@@ -16,7 +16,7 @@ def filter_datum(fields, redaction, message, separator):
         - message: string representing the log line
     """
     for j in fields:
-        message = sub(j + '=.*?' + separator,
+        message = re.sub(j + '=.*?' + separator,
                       j + '=' + redaction + separator,
                       message)
     return message
