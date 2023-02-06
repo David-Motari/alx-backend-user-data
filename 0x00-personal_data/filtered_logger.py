@@ -2,12 +2,13 @@
 """
 filtered_logger
 """
-import re
 from typing import List
+import re
 
 
-def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str) -> str:
+def filter_datum(
+    fields: List[str], redaction: str, message: str, separator: str
+) -> str:
     """
     function that returns the log message obfuscated
     Args:
@@ -17,7 +18,7 @@ def filter_datum(fields: List[str], redaction: str,
         - redaction: string representing by what the field will be obfuscated
         - message: string representing the log line
     """
-    for iter in fields:
-        message = re.sub(fr'{iter}=.*?{separator}',
-                      f'{iter}={redaction}{separator}', message)
+    for f in fields:
+        message = re.sub(f"{f}=.*?{separator}",
+                         f"{f}={redaction}{separator}", message)
     return message
