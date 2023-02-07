@@ -2,7 +2,7 @@
 """
 filtered_logger
 """
-from typing import List
+from typing import List, Tuple
 import re
 import logging
 from os import getenv
@@ -84,3 +84,22 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     )
 
     return connct
+
+
+def main():
+    """
+    takes no arguments and returns nothing.
+    """
+    db: mysql.connector.connection.MySQLConnection = get_db()
+    cursor = db.cursor()
+    fields = (field[0] for field in cursor.description)
+    cursor.execute("SELECT * FROM users;")
+    logger: logging.Logger = get_logger()
+
+    for j in cursor:
+        data_row = ''.join(f'{fld}={str(row)}, ' for row, fld in zip(
+                           j, fields))
+        logger.info(data_row.strip())
+
+    cursor.close()
+    db.close()
