@@ -61,7 +61,7 @@ class BasicAuth(Auth):
              ):
             return (None, None)
 
-        creds = decoded_base64_authorization_header.split(":")
+        creds = decoded_base64_authorization_header.split(":", 1)
         return (creds[0], creds[1])
 
     def user_object_from_credentials(self,
