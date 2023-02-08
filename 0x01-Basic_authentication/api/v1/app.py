@@ -34,8 +34,8 @@ def before_request():
         except_lines = ['/api/v1/status/', '/api/v1/unauthorized/',
                         '/api/v1/forbidden/']
         if (auth.require_auth(request.path, except_lines)):
-            if (auth.authorization_header(request.headers)):
-                if (auth.current_user(request.remote_user)):
+            if (auth.authorization_header(request)):
+                if (auth.current_user(request)):
                     pass
                 else:
                     return abort(403)
