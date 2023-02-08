@@ -31,7 +31,9 @@ class Auth:
         """
         returns None
         """
-        return None
+        if request is None or 'Authorization' not in request:
+            return None
+        return request['Authorization']
 
     def current_user(self, request=None) -> TypeVar("User"):
         """
