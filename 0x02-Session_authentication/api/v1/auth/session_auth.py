@@ -11,6 +11,7 @@ class SessionAuth(Auth):
     """
     session authentication class, inherits from auth
     """
+
     user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
@@ -31,14 +32,13 @@ class SessionAuth(Auth):
             return None
         return self.user_id_by_session_id.get(session_id)
 
-
     def current_user(self, request=None):
         """
         returns a User instance based on a cookie value
         """
         session_cookie = self.session_cookie(request)
-        i_d = ''
+        i_d = ""
         if session_cookie:
             i_d = self.user_id_for_session_id(session_cookie)
-            
+
         return User.get(i_d)
