@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
 import os
+from typing import TypeVar
 
 
 app = Flask(__name__)
@@ -33,14 +34,17 @@ def before_request():
     if auth:
         except_lines = ['/api/v1/status/', '/api/v1/unauthorized/',
                         '/api/v1/forbidden/']
-        if (auth.require_auth(request.path, except_lines)):
-            if (auth.authorization_header(request)):
-                if (auth.current_user(request)):
-                    request.current_user = auth.current_user(request)
-                else:
-                    return abort(403)
-            else:
-                return abort(401)
+        if not (auth.require_auth(request.path, except_lines)):
+            return
+
+        if (auth.authorization_header(request)) is None:
+            abort(401)
+
+        current_user: TypeVar('User') = auth.current_user(request)
+        if current_user is None:
+            abort(403)
+
+    request.current_user = current_user
 
 
 @app.errorhandler(404)
