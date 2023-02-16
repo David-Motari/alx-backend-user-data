@@ -70,9 +70,13 @@ class Auth:
         destroys session_id
         """
         try:
-            self._db.update_user(user.id, session_id=None)
+            user = self._db.find_user_by(id=user_id)
         except NoResultFound:
             return None
+
+        self._db.update_user(user.id, session_id=None)
+
+        return None
 
 
 def _hash_password(password: str) -> bytes:
