@@ -15,7 +15,7 @@ class DB:
 
     def __init__(self) -> None:
         """Initialize a new DB instance"""
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -45,10 +45,10 @@ class DB:
         if not kwargs:
             raise InvalidRequestError
 
-        """"column_names = User.__table__.columns.keys()
+        column_names = User.__table__.columns.keys()
         for key, value in kwargs.items():
             if key not in column_names:
-                raise InvalidRequestError""""
+                raise InvalidRequestError
 
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
