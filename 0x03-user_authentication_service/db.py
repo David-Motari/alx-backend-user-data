@@ -7,7 +7,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
-
 from user import Base, User
 
 
@@ -46,10 +45,10 @@ class DB:
         if not kwargs:
             raise InvalidRequestError
 
-        column_names = User.__table__.columns.keys()
-        for key in kwargs.keys():
+        """"column_names = User.__table__.columns.keys()
+        for key, value in kwargs.items():
             if key not in column_names:
-                raise InvalidRequestError
+                raise InvalidRequestError""""
 
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
