@@ -6,6 +6,7 @@ from bcrypt import hashpw, gensalt, checkpw
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
+import uuid
 
 
 class Auth:
@@ -46,3 +47,10 @@ def _hash_password(password: str) -> bytes:
     """
     encd_pwd = password.encode("utf=8")
     return hashpw(encd_pwd, gensalt())
+
+
+def _generate_uuid() -> str:
+    """
+    generating a UUID
+    """
+    return uuid.uuid4()
