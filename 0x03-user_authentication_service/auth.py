@@ -70,11 +70,7 @@ class Auth:
         destroys session_id
         """
         try:
-            user = self._db.find.user_by(user_id=user_id)
-            if user:
-                session_id = None
-                self._db.update_user(user.id, session_id=session_id)
-                return None
+            self._db.update_user(user.id, session_id=None)
         except NoResultFound:
             return None
 
