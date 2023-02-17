@@ -57,9 +57,11 @@ def login() -> str:
 @app.route('/sessions', methods=["DELETE"], strict_slashes=False)
 def logout():
     """
-    logout endpoint
+    logout endpoint, removes session_id
     """
     session_id = request.cookies.get('session_id')
+    if session_id is None:
+        abort(403)
     usr = AUTH.get_user_from_session_id(session_id)
     if user:
         AUTH.destroy_session(usr.id)
