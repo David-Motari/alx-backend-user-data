@@ -54,20 +54,18 @@ def login() -> str:
         return resp
 
 
-@app.route('/sessions', methods=["DELETE"], strict_slashes=False)
-def logout() -> str:
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout():
     """
-    logout endpoint, removes session_id
+    logout endpoint that destroys the session id
     """
     session_id = request.cookies.get('session_id')
-    if session_id is None:
-        abort(403)
-    usr = AUTH.get_user_from_session_id(session_id)
-    if user:
-        AUTH.destroy_session(usr.id)
-        return redirect('/')
-    else:
-        abort(403)
+    if session_id:
+        user = AUTH.get_user_from_session_id(session_id)
+        if user:
+            AUTH.destroy_session(user.id)
+            return redirect('/')
+    abort(403)
 
 
 if __name__ == "__main__":
