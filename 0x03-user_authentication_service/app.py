@@ -86,11 +86,13 @@ def get_reset_password_token():
     """
     endpoint for resetting user password
     """
-    email = request.form['email']
-    if email:
-        token = AUTH.get_reset_password_token(email)
-        return jsonify({"email": email, "reset_token": token}), 200
-    abort(403)
+    try:
+        email = request.form['email']
+        if email:
+            token = AUTH.get_reset_password_token(email)
+            return jsonify({"email": email, "reset_token": token}), 200
+    except ValueError:
+        abort(403)
 
 
 if __name__ == "__main__":
